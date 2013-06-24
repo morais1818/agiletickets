@@ -1,15 +1,22 @@
 package br.com.caelum.agiletickets.models;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 public class SessaoTest {
 
+private Sessao sessao;
+
+@Before
+public void inicializa(){
+	this.sessao = new Sessao();
+	//System.out.println("Antes");
+}
 
 	@Test
 	public void deveVender1ingressoSeHa2vagas() throws Exception {
-		Sessao sessao = new Sessao();
-        sessao.setTotalIngressos(2);
+		sessao.setTotalIngressos(2);
 
         Assert.assertTrue(sessao.podeReservar(1));
 	}
