@@ -2,6 +2,7 @@ package br.com.caelum.agiletickets.models;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
@@ -97,36 +99,51 @@ public class Espetaculo {
       */
 	public List<Sessao> criaSessoes(LocalDate inicio, LocalDate fim, LocalTime horario, Periodicidade periodicidade) {
 		// ALUNO: Não apague esse metodo. Esse sim será usado no futuro! ;)
-		return null;
+		List <Sessao> sessoes = new ArrayList<Sessao>();
+		sessoes.add(criaSessao(inicio.toDateTime(horario)));
+		
+		return sessoes;//diga retirada do ivocomputacao
+		
 	}
 	
-	public boolean vagas(int qtd, int min)
+	public Sessao criaSessao (DateTime dataHora) {
+		Sessao s = new Sessao();
+		s.setInicio(dataHora);
+		
+		return s;
+	
+	}
+	
+	public boolean vagasDisponiveis(int quantidade, int minimo)
+    {
+        // ALUNO: Não apague esse metodo. Esse sim será usado no futuro! ;)
+        int totalDisponivel = 0;
+
+        for (Sessao s : sessoes)
+        {
+            if (s.getIngressosDisponiveis() < minimo) return false;
+            totalDisponivel += s.getIngressosDisponiveis();
+        }
+
+        if (totalDisponivel >= quantidade) return true;
+        else return false;
+    }
+
+    public boolean vagas(int quantidade)
     {
         // ALUNO: Não apague esse metodo. Esse sim será usado no futuro! ;)
         int totDisp = 0;
 
         for (Sessao s : sessoes)
         {
-            if (s.getIngressosDisponiveis() < min) return false;
             totDisp += s.getIngressosDisponiveis();
         }
 
-        if (totDisp >= qtd) return true;
+        if (totDisp >= quantidade) return true;
         else return false;
     }
-
-    public boolean vagas(int qtd)
-    {
-        // ALUNO: Não apague esse metodo. Esse sim será usado no futuro! ;)
-        int totDisp = 0;
-
-        for (Sessao s : sessoes)
-        {
-            totDisp += s.getIngressosDisponiveis();
-        }
-
-        if (totDisp >= qtd) return true;
-        else return false;
-    }
+    
+        
+    
 
 }
